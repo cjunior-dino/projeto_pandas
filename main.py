@@ -2,10 +2,10 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-# Caminho para o arquivo CSV
+
 arquivo_csv = "./archive/matchinfo.csv"
 
-# Lendo o arquivo CSV
+
 df = pd.read_csv(arquivo_csv, sep=';')
 
 
@@ -18,10 +18,10 @@ colunas_desejadas = [
     "redSupportChamp"
 ]
 
-# Extraindo as colunas especificadas
+
 dados = df[colunas_desejadas]
 
-# Criando o DataFrame Pandas
+
 novo_df = pd.DataFrame(dados)
 
 coluna = {
@@ -65,10 +65,10 @@ coluna_champs = [
 novo_df_champs = df_atual[coluna_champs]
 print(novo_df_champs)
 
-champions = novo_df_champs.values.flatten()  # Flatten para um único array
+champions = novo_df_champs.values.flatten()
 contagem_champions = pd.Series(champions).value_counts()
 
-# Selecionar os 10 campeões mais escolhidos
+
 top_10_champions = contagem_champions.head(10)
 
 plt.figure(figsize=(10, 6))
@@ -83,7 +83,7 @@ for index, value in enumerate(top_10_champions):
 
 plt.tight_layout()
 
-# Exibir o gráfico
+
 plt.show()
 
 #Analise global do campeos mais escolhidos 2016 a 2018
@@ -102,23 +102,23 @@ coluna_champs_liga = [
     "Sup_Vermelho",
 ]
 
-# Selecionar apenas as colunas mencionadas
+
 novo_df_liga = novo_df[coluna_champs_liga]
 print(novo_df_liga)
 
-# Filtrar os dados para a liga "CBLol"
+
 df_cblol = novo_df_liga[novo_df_liga["Liga"] == "CBLoL"]
 print(df_cblol)
 
 
-# Contar o número de vezes que cada campeão aparece
+
 todos_champions_cblol = df_cblol.iloc[:, 1:].values.flatten()  # Ignorar a coluna "Liga"
 contagem_champions_cblol = pd.Series(todos_champions_cblol).value_counts()
 
-# Selecionar os 10 campeões mais escolhidos
+
 top_10_champions_cblol = contagem_champions_cblol.head(10)
 
-# Criar o gráfico de barras
+
 plt.figure(figsize=(10, 6))
 bars = top_10_champions_cblol.plot(kind="bar", color="skyblue", edgecolor="black")
 plt.title("Top 10 Campeões Mais Escolhidos na Liga CBLol\n Entre 2016 a 2018", fontsize=14)
@@ -127,7 +127,7 @@ plt.ylabel("Frequência", fontsize=12)
 plt.xticks(rotation=45, ha="right")
 plt.grid(axis="y", linestyle="--", alpha=0.7)
 
-# Adicionar os valores no topo das barras
+
 for index, value in enumerate(top_10_champions_cblol):
     plt.text(index, value + 0.5, str(value), ha="center", fontsize=10)
 
@@ -141,20 +141,20 @@ df_cblol = df_atual[df_atual["Liga"] == "CBLoL"]
 # 3.0 Agrupar por ano e somar as vitórias para cada lado
 vitorias_por_ano = df_cblol.groupby('Ano')[['Vitoria_Azul', 'Vitoria_Vermemlho']].sum()
 
-# Calcular o total de vitórias e porcentagens
+
 vitorias_por_ano['Total'] = vitorias_por_ano['Vitoria_Azul'] + vitorias_por_ano['Vitoria_Vermemlho']
 vitorias_por_ano['Pct_Azul'] = (vitorias_por_ano['Vitoria_Azul'] / vitorias_por_ano['Total']) * 100
 vitorias_por_ano['Pct_Vermelho'] = (vitorias_por_ano['Vitoria_Vermemlho'] / vitorias_por_ano['Total']) * 100
 
-# Configuração dos eixos e larguras
+
 anos = vitorias_por_ano.index
 indice = np.arange(len(anos))
 largura = 0.35
 
-# Criar a figura do gráfico
+
 plt.figure(figsize=(12, 6))
 
-# Barras para vitórias do lado azul
+
 barras_azul = plt.bar(
     indice - largura / 2,
     vitorias_por_ano['Vitoria_Azul'],
@@ -163,7 +163,7 @@ barras_azul = plt.bar(
     color='blue'
 )
 
-# Barras para vitórias do lado vermelho
+
 barras_vermelho = plt.bar(
     indice + largura / 2,
     vitorias_por_ano['Vitoria_Vermemlho'],
@@ -172,7 +172,7 @@ barras_vermelho = plt.bar(
     color='red'
 )
 
-# Adicionar rótulos de quantidade e porcentagem nas barras
+
 for i, barra in enumerate(barras_azul):
     plt.text(
         barra.get_x() + barra.get_width() / 2,
@@ -195,7 +195,7 @@ for i, barra in enumerate(barras_vermelho):
         color='red'
     )
 
-# Configurações do gráfico
+
 plt.title("Vitórias do Time Azul e Vermelho no CBLoL (2016-2018)", fontsize=16)
 plt.xlabel("Ano", fontsize=12)
 plt.ylabel("Quantidade de Vitórias", fontsize=12)
@@ -203,7 +203,7 @@ plt.xticks(indice, anos)  # Adiciona os anos como rótulos no eixo X
 plt.legend(fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 
-# Ajustar layout e exibir o gráfico
+
 plt.tight_layout()
 plt.show()
 
